@@ -107,17 +107,17 @@ ul {
 }
 
 /* --------------------------------------------------
-   BOARD (FIXED + RESPONSIVE)
+   BOARD (8×8, RESPONSIVE, CORRECT)
 -------------------------------------------------- */
 
 #board {
   display: grid;
-  grid-template-columns: repeat(10, 1fr); /* 10 files */
+  grid-template-columns: repeat(8, 1fr);  /* 8 files */
   grid-template-rows: repeat(8, 1fr);     /* 8 ranks */
 
   width: 100%;
-  max-width: 600px;        /* perfect on laptop */
-  aspect-ratio: 10 / 8;    /* keeps shape correct */
+  max-width: 520px;       /* perfect laptop size */
+  aspect-ratio: 1 / 1;    /* perfect square */
 
   border: 2px solid #333;
 }
@@ -233,6 +233,6 @@ footer a:hover {
   }
 
   #board {
-    max-width: 95vw;   /* fills mobile width without breaking */
+    max-width: 95vw;   /* fills mobile width cleanly */
   }
 }
