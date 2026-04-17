@@ -1,0 +1,113 @@
+/* ------------------------------------------------------------
+   BOARD LAYOUT (10×8)
+------------------------------------------------------------ */
+
+#board {
+  display: grid;
+  width: 85vmin;
+  height: calc(85vmin * 0.8); /* 10×8 ratio */
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  border: 6px solid #3c2417;
+  background-color: #2b1a12;
+  position: relative;
+}
+
+/* ------------------------------------------------------------
+   SQUARES
+------------------------------------------------------------ */
+
+.square {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  position: relative;
+}
+
+.light {
+  background: #d9b38c; /* mahogany maple */
+}
+
+.dark {
+  background: #5a3e2b; /* ebony */
+}
+
+/* ------------------------------------------------------------
+   PIECES
+------------------------------------------------------------ */
+
+.square img {
+  width: 90%;
+  height: 90%;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------
+   HIGHLIGHTS
+------------------------------------------------------------ */
+
+.highlight {
+  outline: 4px solid rgba(255, 215, 0, 0.55);
+}
+
+.selected {
+  outline: 4px solid rgba(255, 255, 0, 0.35);
+}
+
+/* Last move arrow overlay */
+.last-move {
+  background: rgba(255, 255, 0, 0.25);
+}
+
+/* ------------------------------------------------------------
+   BOARD LABELS (a–j, 1–8)
+------------------------------------------------------------ */
+
+.label {
+  position: absolute;
+  font-size: 1.8vmin;
+  color: #f5e9d6;
+  pointer-events: none;
+  font-family: "Georgia", serif;
+}
+
+.file-label {
+  bottom: -2.5vmin;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.rank-label {
+  right: -2.5vmin;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ------------------------------------------------------------
+   PANELS (move history, promotion popup)
+------------------------------------------------------------ */
+
+.panel {
+  background: #2b1a12;
+  border: 2px solid #3c2417;
+  color: #f5e9d6;
+  padding: 1rem;
+  font-family: "Georgia", serif;
+}
+
+.promotion-popup {
+  position: absolute;
+  background: #2b1a12;
+  border: 3px solid #3c2417;
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  z-index: 10;
+}
+
+.promotion-popup img {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
