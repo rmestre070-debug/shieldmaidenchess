@@ -1,4 +1,4 @@
-/* -------- Global -------- */
+/* ---------------- GLOBAL ---------------- */
 
 body {
   margin: 0;
@@ -18,7 +18,7 @@ body {
   min-height: 100vh;
 }
 
-/* -------- Panels -------- */
+/* ---------------- PANELS ---------------- */
 
 .panel {
   background: #2b2b2b;
@@ -40,7 +40,7 @@ footer.panel {
   border-bottom: none;
 }
 
-/* -------- Layout -------- */
+/* ---------------- LAYOUT ---------------- */
 
 #main-layout {
   display: flex;
@@ -50,12 +50,14 @@ footer.panel {
   justify-content: center;
 }
 
-/* Board container stays centered */
 #board-container {
   flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Side panel fixed width */
+/* Side panel */
 #side-panel {
   width: 260px;
   background: #2b2b2b;
@@ -64,12 +66,14 @@ footer.panel {
   overflow-y: auto;
 }
 
-/* -------- Board -------- */
+/* ---------------- BOARD ---------------- */
 
 #board {
+  width: 700px;
+  height: 560px; /* 10x8 ratio */
   display: grid;
-  grid-template-columns: repeat(10, 70px);
-  grid-template-rows: repeat(8, 70px);
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(8, 1fr);
   border: 4px solid #3c2417;
   background: #3c2417;
   box-shadow: 0 0 20px rgba(0,0,0,0.6);
@@ -77,8 +81,8 @@ footer.panel {
 
 .square {
   position: relative;
-  width: 70px;
-  height: 70px;
+  width: 100%;
+  height: 100%;
 }
 
 .light {
@@ -89,7 +93,7 @@ footer.panel {
   background: #8b5a2b;
 }
 
-/* -------- Highlights -------- */
+/* ---------------- HIGHLIGHTS ---------------- */
 
 .selected {
   outline: 3px solid #ffeb3b;
@@ -103,7 +107,7 @@ footer.panel {
   background: rgba(255,255,0,0.25);
 }
 
-/* -------- Pieces -------- */
+/* ---------------- PIECES ---------------- */
 
 .square img {
   width: 100%;
@@ -112,7 +116,7 @@ footer.panel {
   pointer-events: none;
 }
 
-/* -------- Labels -------- */
+/* ---------------- LABELS ---------------- */
 
 .label {
   position: absolute;
@@ -131,7 +135,7 @@ footer.panel {
   left: 4px;
 }
 
-/* -------- Promotion Popup -------- */
+/* ---------------- PROMOTION POPUP ---------------- */
 
 .promotion-popup {
   position: fixed;
@@ -149,7 +153,7 @@ footer.panel {
   cursor: pointer;
 }
 
-/* -------- Move History -------- */
+/* ---------------- MOVE HISTORY ---------------- */
 
 #move-history {
   max-height: 300px;
@@ -160,7 +164,7 @@ footer.panel {
   margin-bottom: 16px;
 }
 
-/* -------- Status -------- */
+/* ---------------- STATUS ---------------- */
 
 #status {
   padding: 8px;
@@ -168,7 +172,7 @@ footer.panel {
   border: 1px solid #444;
 }
 
-/* -------- Responsive -------- */
+/* ---------------- RESPONSIVE ---------------- */
 
 @media (max-width: 1100px) {
   #main-layout {
@@ -183,12 +187,7 @@ footer.panel {
   }
 
   #board {
-    grid-template-columns: repeat(10, 50px);
-    grid-template-rows: repeat(8, 50px);
-  }
-
-  .square {
-    width: 50px;
-    height: 50px;
+    width: 500px;
+    height: 400px;
   }
 }
