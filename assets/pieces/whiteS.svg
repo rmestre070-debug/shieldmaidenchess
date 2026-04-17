@@ -1,0 +1,11 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100" height="100" fill="none"/>
+  <!-- Shield -->
+  <circle cx="40" cy="45" r="18" fill="#f5e9d6" stroke="#3c2417" stroke-width="3"/>
+  <circle cx="40" cy="45" r="8" fill="#d9b38c" stroke="#3c2417" stroke-width="2"/>
+  <!-- Spear -->
+  <line x1="60" y1="20" x2="75" y2="70" stroke="#3c2417" stroke-width="4"/>
+  <polygon points="60,20 55,28 65,28" fill="#3c2417"/>
+  <!-- Base -->
+  <rect x="30" y="65" width="40" height="8" fill="#f5e9d6" stroke="#3c2417" stroke-width="3"/>
+</svg>
