@@ -13,40 +13,18 @@
   <link rel="icon" type="image/png" sizes="128x128" href="favicon-128.png">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-  <!-- Smooth scrolling + nav styling -->
   <style>
-    html {
-      scroll-behavior: smooth;
-    }
-
-    nav {
-      background: #2b2b2b;
-      border-bottom: 2px solid #444;
-      padding: 10px 20px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    nav a {
-      color: #f0e6d2;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 15px;
-    }
-
-    nav a:hover {
-      color: #ffd56a;
-    }
+    html { scroll-behavior: smooth; }
   </style>
 </head>
 
 <body>
 <div id="app">
+
+  <!-- HEADER BANNER -->
+  <header class="panel">
+    <img src="images/header_banner.jpg" alt="Shield Maiden Chess Header Banner" class="header-banner">
+  </header>
 
   <!-- NAVIGATION BAR -->
   <nav>
@@ -61,11 +39,6 @@
     <a href="#manual">Manual</a>
     <a href="#contact">Contact</a>
   </nav>
-
-  <!-- HEADER -->
-  <header class="panel">
-  <img src="images/header_banner.jpg" alt="Shield Maiden Chess Header Banner" class="header-banner">
-</header>
 
   <!-- MAIN LAYOUT -->
   <div id="main-layout">
