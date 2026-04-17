@@ -1,13 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Shield Maiden Chess</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div id="app">
+    <header class="panel">
+      <h1>Shield Maiden Chess</h1>
+      <div id="controls">
+        <label for="ai-side">AI Side:</label>
+        <select id="ai-side">
+          <option value="none">Human vs Human</option>
+          <option value="w">AI plays White</option>
+          <option value="b">AI plays Black</option>
+          <option value="both">AI vs AI</option>
+        </select>
+        <button id="new-game">New Game</button>
+      </div>
+    </header>
 
-  <div id="board"></div>
+    <main id="main-layout">
+      <div id="board-container">
+        <div id="board"></div>
+      </div>
+      <aside id="side-panel" class="panel">
+        <h2>Move History</h2>
+        <div id="move-history"></div>
+        <h2>Status</h2>
+        <div id="status"></div>
+      </aside>
+    </main>
+
+    <footer class="panel">
+      <span>Shield Maiden Chess — 10×8 variant with Shield Wall mechanics.</span>
+      <span><a href="https://github.com/rmsetre070-debug/shieldmaidenchess" target="_blank">View on GitHub</a></span>
+    </footer>
+  </div>
 
   <script type="module" src="ui.js"></script>
 </body>

@@ -1,22 +1,31 @@
 // ui.js
 import { newGame, getLegalMoves, makeMove } from "./engine/engine.js";
-import { FILES, RANKS } from "./engine/board.js";
 
 const boardEl = document.getElementById("board");
+const moveHistoryEl = document.getElementById("move-history");
+const statusEl = document.getElementById("status");
+const aiSelectEl = document.getElementById("ai-side");
+const newGameBtn = document.getElementById("new-game");
+
+const FILES = 10;
+const RANKS = 8;
+const filesLabels = ["a","b","c","d","e","f","g","h","i","j"];
+
 let game = newGame();
 let selected = null;
 let legalMoves = [];
 let lastMove = null;
 let dragging = null;
 let dragImg = null;
-let moveHistoryEl = null;
+
+let aiSide = null; // "w", "b", or null; "both" handled via chaining
+let aiThinking = false;
+
 let sounds = {
   move: new Audio("assets/sounds/move.mp3"),
   capture: new Audio("assets/sounds/capture.mp3"),
   promote: new Audio("assets/sounds/promote.mp3")
 };
-
-const filesLabels = ["a","b","c","d","e","f","g","h","i","j"];
 
 // ---------------- Piece image path ----------------
 
@@ -124,10 +133,8 @@ function renderBoard() {
     }
   }
 
-  if (!moveHistoryEl) {
-    moveHistoryEl = document.getElementById("move-history");
-  }
   renderMoveHistory();
+  renderStatus();
 }
 
 function renderMoveHistory() {
@@ -140,6 +147,11 @@ function renderMoveHistory() {
   });
 }
 
+function renderStatus() {
+  if (!statusEl) return;
+  statusEl.textContent = `Turn: ${game.turn === "w" ? "White" : "Black"}`;
+}
+
 function coordToAlgebraic(pos) {
   return filesLabels[pos.c] + (RANKS - pos.r);
 }
@@ -147,6 +159,9 @@ function coordToAlgebraic(pos) {
 // ---------------- Interaction ----------------
 
 function onSquareClick(e) {
+  if (aiThinking) return;
+  if (aiSide && game.turn === aiSide && aiSide !== "both") return;
+
   const r = parseInt(e.currentTarget.dataset.r);
   const c = parseInt(e.currentTarget.dataset.c);
   const piece = game.board[r][c];
@@ -173,6 +188,9 @@ function onSquareClick(e) {
 }
 
 function onSquareMouseDown(e) {
+  if (aiThinking) return;
+  if (aiSide && game.turn === aiSide && aiSide !== "both") return;
+
   const r = parseInt(e.currentTarget.dataset.r);
   const c = parseInt(e.currentTarget.dataset.c);
   const piece = game.board[r][c];
@@ -224,7 +242,17 @@ function onSquareMouseUp(e) {
   renderBoard();
 }
 
-// ---------------- Move execution ----------------
+// ---------------- Move execution + AI ----------------
+
+function playMoveSound(fromPiece, targetPiece, promoted) {
+  if (promoted && sounds.promote) {
+    sounds.promote.play();
+  } else if (targetPiece && sounds.capture) {
+    sounds.capture.play();
+  } else if (sounds.move) {
+    sounds.move.play();
+  }
+}
 
 function handleMove(move) {
   const fromPiece = game.board[move.from.r][move.from.c];
@@ -237,24 +265,87 @@ function handleMove(move) {
       lastMove = move;
       playMoveSound(fromPiece, targetPiece, !!promo);
       renderBoard();
+      maybeAIMove();
     });
   } else {
     makeMove(game, move);
     lastMove = move;
     playMoveSound(fromPiece, targetPiece, false);
+    renderBoard();
+    maybeAIMove();
   }
 }
 
-function playMoveSound(fromPiece, targetPiece, promoted) {
-  if (promoted && sounds.promote) {
-    sounds.promote.play();
-  } else if (targetPiece && sounds.capture) {
-    sounds.capture.play();
-  } else if (sounds.move) {
-    sounds.move.play();
-  }
+// ---------------- Simple AI (random move for now) ----------------
+
+function getRandomAIMove() {
+  const moves = getLegalMoves(game);
+  if (moves.length === 0) return null;
+  return moves[Math.floor(Math.random() * moves.length)];
 }
+
+function aiShouldMove() {
+  if (!aiSide) return false;
+  if (aiSide === "both") return true;
+  return game.turn === aiSide;
+}
+
+function aiMakeMove() {
+  if (!aiShouldMove()) return;
+
+  aiThinking = true;
+
+  setTimeout(() => {
+    const move = getRandomAIMove();
+    if (move) {
+      const fromPiece = game.board[move.from.r][move.from.c];
+      const targetPiece = game.board[move.to.r][move.to.c];
+      makeMove(game, move);
+      lastMove = move;
+      playMoveSound(fromPiece, targetPiece, !!move.promotion);
+      renderBoard();
+    }
+    aiThinking = false;
+    if (aiSide === "both") {
+      aiMakeMove();
+    }
+  }, 300);
+}
+
+function maybeAIMove() {
+  if (!aiSide) return;
+  aiMakeMove();
+}
+
+// ---------------- Controls ----------------
+
+aiSelectEl.addEventListener("change", e => {
+  const val = e.target.value;
+  if (val === "none") {
+    aiSide = null;
+  } else if (val === "both") {
+    aiSide = "both";
+  } else {
+    aiSide = val; // "w" or "b"
+  }
+  maybeAIMove();
+});
+
+newGameBtn.addEventListener("click", () => {
+  game = newGame();
+  selected = null;
+  legalMoves = [];
+  lastMove = null;
+  dragging = null;
+  if (dragImg) {
+    dragImg.remove();
+    dragImg = null;
+  }
+  renderBoard();
+  maybeAIMove();
+});
 
 // ---------------- Init ----------------
 
 renderBoard();
+maybeAIMove();
