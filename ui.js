@@ -20,26 +20,41 @@ let lastMove = null;
 let dragging = null;
 let dragImg = null;
 
-let aiSide = null;      // "w", "b", "both", or null
+let aiSide = null;
 let aiThinking = false;
-let aiDepth = 2;        // default Medium
+let aiDepth = 2;
+
+// ---------------- SOUND SYSTEM ----------------
 
 let sounds = {
-  move: new Audio("assets/sounds/move.mp3"),
-  capture: new Audio("assets/sounds/capture.mp3"),
-  promote: new Audio("assets/sounds/promote.mp3")
+  move: loadSound("assets/sounds/move.mp3"),
+  capture: loadSound("assets/sounds/capture.mp3"),
+  promote: loadSound("assets/sounds/promote.mp3")
 };
 
-// ---------------- Piece image path ----------------
-
-function pieceToImage(piece) {
-  if (!piece) return "";
-  const color = piece[0] === "w" ? "white" : "black";
-  const type = piece[1];
-  return `assets/pieces/${color}${type}.svg`;
+function loadSound(path) {
+  const audio = new Audio();
+  audio.src = path;
+  audio.preload = "auto";
+  audio.onerror = () => console.warn("Sound failed to load:", path);
+  return audio;
 }
 
-// ---------------- Promotion helpers ----------------
+function playMoveSound(fromPiece, targetPiece, promoted) {
+  try {
+    if (promoted && sounds.promote) {
+      sounds.promote.play();
+    } else if (targetPiece && sounds.capture) {
+      sounds.capture.play();
+    } else if (sounds.move) {
+      sounds.move.play();
+    }
+  } catch (e) {
+    console.warn("Sound playback error:", e);
+  }
+}
+
+// ---------------- PROMOTION ----------------
 
 function needsPromotion(move) {
   const piece = game.board[move.from.r][move.from.c];
@@ -71,7 +86,7 @@ function showPromotionPopup(move, onSelect) {
   popup.style.top = `${rect.top + rect.height / 2 - popup.offsetHeight / 2}px`;
 }
 
-// ---------------- Rendering ----------------
+// ---------------- RENDERING ----------------
 
 function renderBoard() {
   boardEl.innerHTML = "";
@@ -136,8 +151,14 @@ function renderBoard() {
   renderStatus();
 }
 
+function pieceToImage(piece) {
+  if (!piece) return "";
+  const color = piece[0] === "w" ? "white" : "black";
+  const type = piece[1];
+  return `assets/pieces/${color}${type}.svg`;
+}
+
 function renderMoveHistory() {
-  if (!moveHistoryEl) return;
   moveHistoryEl.innerHTML = "";
   game.moveHistory.forEach((m, idx) => {
     const item = document.createElement("div");
@@ -147,7 +168,6 @@ function renderMoveHistory() {
 }
 
 function renderStatus() {
-  if (!statusEl) return;
   let text = `Turn: ${game.turn === "w" ? "White" : "Black"}`;
   if (aiThinking) text += " (AI thinking...)";
   statusEl.textContent = text;
@@ -157,7 +177,7 @@ function coordToAlgebraic(pos) {
   return filesLabels[pos.c] + (RANKS - pos.r);
 }
 
-// ---------------- Interaction ----------------
+// ---------------- INPUT ----------------
 
 function onSquareClick(e) {
   if (aiThinking) return;
@@ -179,9 +199,7 @@ function onSquareClick(e) {
   }
 
   const move = legalMoves.find(m => m.to.r === r && m.to.c === c);
-  if (move) {
-    handleMove(move);
-  }
+  if (move) handleMove(move);
 
   selected = null;
   legalMoves = [];
@@ -228,9 +246,7 @@ function onSquareMouseUp(e) {
   const c = parseInt(e.currentTarget.dataset.c);
 
   const move = legalMoves.find(m => m.to.r === r && m.to.c === c);
-  if (move) {
-    handleMove(move);
-  }
+  if (move) handleMove(move);
 
   dragging = null;
   selected = null;
@@ -243,17 +259,7 @@ function onSquareMouseUp(e) {
   renderBoard();
 }
 
-// ---------------- Move execution + AI ----------------
-
-function playMoveSound(fromPiece, targetPiece, promoted) {
-  if (promoted && sounds.promote) {
-    sounds.promote.play();
-  } else if (targetPiece && sounds.capture) {
-    sounds.capture.play();
-  } else if (sounds.move) {
-    sounds.move.play();
-  }
-}
+// ---------------- MOVE EXECUTION ----------------
 
 function handleMove(move) {
   const fromPiece = game.board[move.from.r][move.from.c];
@@ -264,7 +270,7 @@ function handleMove(move) {
       move.promotion = promo;
       makeMove(game, move);
       lastMove = move;
-      playMoveSound(fromPiece, targetPiece, !!promo);
+      playMoveSound(fromPiece, targetPiece, true);
       renderBoard();
       maybeAIMove();
     });
@@ -277,7 +283,7 @@ function handleMove(move) {
   }
 }
 
-// ---------------- Minimax AI integration ----------------
+// ---------------- AI ----------------
 
 function aiShouldMove() {
   if (!aiSide) return false;
@@ -303,9 +309,7 @@ function aiMakeMove() {
     }
     aiThinking = false;
     renderStatus();
-    if (aiSide === "both") {
-      aiMakeMove();
-    }
+    if (aiSide === "both") aiMakeMove();
   }, 200);
 }
 
@@ -314,17 +318,13 @@ function maybeAIMove() {
   aiMakeMove();
 }
 
-// ---------------- Controls ----------------
+// ---------------- CONTROLS ----------------
 
 aiSelectEl.addEventListener("change", e => {
   const val = e.target.value;
-  if (val === "none") {
-    aiSide = null;
-  } else if (val === "both") {
-    aiSide = "both";
-  } else {
-    aiSide = val; // "w" or "b"
-  }
+  if (val === "none") aiSide = null;
+  else if (val === "both") aiSide = "both";
+  else aiSide = val;
   maybeAIMove();
 });
 
@@ -346,7 +346,7 @@ newGameBtn.addEventListener("click", () => {
   maybeAIMove();
 });
 
-// ---------------- Init ----------------
+// ---------------- INIT ----------------
 
 renderBoard();
 maybeAIMove();
