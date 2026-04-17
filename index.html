@@ -5,18 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shield Maiden Chess</title>
 
-  <!-- Styles -->
   <link rel="stylesheet" href="style.css">
 
-  <!-- Favicon (add files later) -->
+  <!-- Favicon placeholders -->
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
   <link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
   <link rel="icon" type="image/png" sizes="128x128" href="favicon-128.png">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Smooth scrolling + nav styling -->
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    nav {
+      background: #2b2b2b;
+      border-bottom: 2px solid #444;
+      padding: 10px 20px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav a {
+      color: #f0e6d2;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    nav a:hover {
+      color: #ffd56a;
+    }
+  </style>
 </head>
 
 <body>
 <div id="app">
+
+  <!-- NAVIGATION BAR -->
+  <nav>
+    <a href="#main-layout">Play</a>
+    <a href="#about">About</a>
+    <a href="#rules">Rules</a>
+    <a href="#how-to-play">How to Play</a>
+    <a href="#contact">Contact</a>
+  </nav>
 
   <!-- HEADER -->
   <header class="panel">
@@ -95,7 +133,7 @@
 
     <h4>The Shield Maiden (S)</h4>
     <ul>
-      <li>Moves like a King (one square in any direction).</li>
+      <li>Moves one square in any direction (like a King).</li>
       <li>Cannot be checked or checkmated.</li>
       <li>Cannot deliver check.</li>
       <li>Functions as a positional support unit.</li>
@@ -128,6 +166,71 @@
     </ul>
   </section>
 
+  <!-- HOW TO PLAY SECTION -->
+  <section id="how-to-play">
+    <h2>How to Play</h2>
+
+    <p>
+      Shield Maiden Chess plays very closely to classical chess, but the expanded
+      10‑file board and the addition of the Shield Maiden introduce new tactical
+      patterns and strategic depth. This guide walks you through the essentials so
+      you can begin playing immediately.
+    </p>
+
+    <h3>1. Understand the Battlefield</h3>
+    <ul>
+      <li>The board is wider: 10 files (a–j) instead of 8.</li>
+      <li>The center is broader and more dynamic.</li>
+      <li>Flank play becomes more meaningful.</li>
+    </ul>
+
+    <h3>2. Learn the Shield Maiden</h3>
+    <ul>
+      <li>Moves one square in any direction (like a King).</li>
+      <li>Cannot be checked, pinned, or checkmated.</li>
+      <li>Cannot give check.</li>
+      <li>Acts as a flexible support unit for structure and space.</li>
+    </ul>
+
+    <h3>3. Opening Principles</h3>
+    <ul>
+      <li>Develop pieces toward the expanded center.</li>
+      <li>Use the Shield Maiden to reinforce early pawn structures.</li>
+      <li>Control the long diagonals created by the wider board.</li>
+      <li>Castle early — king safety matters more on a wider board.</li>
+    </ul>
+
+    <h3>4. Midgame Strategy</h3>
+    <ul>
+      <li>Expect more lateral play and wider tactical motifs.</li>
+      <li>Shield Maidens excel at reinforcing weak squares.</li>
+      <li>Rooks gain more power due to the extended width.</li>
+      <li>Flank attacks are stronger and harder to ignore.</li>
+    </ul>
+
+    <h3>5. Endgame Concepts</h3>
+    <ul>
+      <li>The Shield Maiden becomes a powerful stabilizer.</li>
+      <li>Promotion choices expand: you may promote to a Shield Maiden.</li>
+      <li>Wider boards create longer king‑walks and more complex pawn races.</li>
+    </ul>
+
+    <h3>6. Winning the Game</h3>
+    <p>
+      Victory is achieved by checkmating the opponent’s King. The Shield Maiden
+      does not affect win conditions directly — it cannot be checkmated and cannot
+      deliver check — but it plays a major role in shaping the path to victory.
+    </p>
+
+    <h3>7. Tips for New Players</h3>
+    <ul>
+      <li>Don’t ignore the outer files — they matter more than in classical chess.</li>
+      <li>Use your Shield Maiden to anchor your structure, not to attack.</li>
+      <li>Expect more open lines and long‑range tactics.</li>
+      <li>Study how the wider board changes classical patterns.</li>
+    </ul>
+  </section>
+
   <!-- CONTACT SECTION -->
   <section id="contact">
     <h2>Contact</h2>
@@ -147,7 +250,6 @@
 
 </div>
 
-<!-- Scripts -->
 <script type="module" src="ui.js"></script>
 
 </body>
