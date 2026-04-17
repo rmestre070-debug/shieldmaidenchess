@@ -107,17 +107,17 @@ ul {
 }
 
 /* --------------------------------------------------
-   BOARD (8×8, RESPONSIVE, CORRECT)
+   BOARD (10×8, RESPONSIVE, CORRECT)
 -------------------------------------------------- */
 
 #board {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);  /* 8 files */
-  grid-template-rows: repeat(8, 1fr);     /* 8 ranks */
+  grid-template-columns: repeat(10, 1fr);  /* 10 files: a–j */
+  grid-template-rows: repeat(8, 1fr);      /* 8 ranks */
 
   width: 100%;
-  max-width: 520px;       /* perfect laptop size */
-  aspect-ratio: 1 / 1;    /* perfect square */
+  max-width: 700px;        /* perfect laptop size */
+  aspect-ratio: 10 / 8;    /* correct Shield Maiden geometry */
 
   border: 2px solid #333;
 }
