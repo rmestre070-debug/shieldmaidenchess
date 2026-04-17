@@ -106,12 +106,19 @@ ul {
   border-radius: 6px;
 }
 
+/* --------------------------------------------------
+   BOARD (FIXED + RESPONSIVE)
+-------------------------------------------------- */
+
 #board {
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat(8, 1fr);
-  width: 80vmin;
-  height: calc(80vmin * 0.8);
+  grid-template-columns: repeat(10, 1fr); /* 10 files */
+  grid-template-rows: repeat(8, 1fr);     /* 8 ranks */
+
+  width: 100%;
+  max-width: 600px;        /* perfect on laptop */
+  aspect-ratio: 10 / 8;    /* keeps shape correct */
+
   border: 2px solid #333;
 }
 
@@ -226,7 +233,6 @@ footer a:hover {
   }
 
   #board {
-    width: 95vmin;
-    height: calc(95vmin * 0.8);
+    max-width: 95vw;   /* fills mobile width without breaking */
   }
 }
