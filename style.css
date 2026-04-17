@@ -16,20 +16,6 @@ body {
 }
 
 /* --------------------------------------------------
-   HEADER BANNER (Option 1 — max-height)
--------------------------------------------------- */
-
-.header-banner {
-  width: 100%;
-  height: auto;
-  max-height: 220px;      /* <— controls size */
-  object-fit: cover;      /* <— crops gracefully */
-  display: block;
-  border-bottom: 2px solid #444;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-}
-
-/* --------------------------------------------------
    NAVIGATION BAR
 -------------------------------------------------- */
 
@@ -242,9 +228,5 @@ footer a:hover {
   #board {
     width: 95vmin;
     height: calc(95vmin * 0.8);
-  }
-
-  .header-banner {
-    max-height: 160px; /* Slightly smaller on mobile */
   }
 }
