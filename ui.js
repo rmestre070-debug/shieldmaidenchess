@@ -1,15 +1,17 @@
 // ui.js
-import { newGame, getLegalMoves, makeMove } from "./engine/engine.js";
+import { newGame, getLegalMoves, makeMove, cloneGame } from "./engine/engine.js";
+import { getBestMove } from "./engine/ai.js";
+
+const FILES = 10;
+const RANKS = 8;
+const filesLabels = ["a","b","c","d","e","f","g","h","i","j"];
 
 const boardEl = document.getElementById("board");
 const moveHistoryEl = document.getElementById("move-history");
 const statusEl = document.getElementById("status");
 const aiSelectEl = document.getElementById("ai-side");
+const aiLevelEl = document.getElementById("ai-level");
 const newGameBtn = document.getElementById("new-game");
-
-const FILES = 10;
-const RANKS = 8;
-const filesLabels = ["a","b","c","d","e","f","g","h","i","j"];
 
 let game = newGame();
 let selected = null;
@@ -18,8 +20,9 @@ let lastMove = null;
 let dragging = null;
 let dragImg = null;
 
-let aiSide = null; // "w", "b", or null; "both" handled via chaining
+let aiSide = null;      // "w", "b", "both", or null
 let aiThinking = false;
+let aiDepth = 2;        // default Medium
 
 let sounds = {
   move: new Audio("assets/sounds/move.mp3"),
@@ -32,7 +35,7 @@ let sounds = {
 function pieceToImage(piece) {
   if (!piece) return "";
   const color = piece[0] === "w" ? "white" : "black";
-  const type = piece[1]; // K,Q,R,B,N,P,S
+  const type = piece[1];
   return `assets/pieces/${color}${type}.svg`;
 }
 
@@ -83,7 +86,6 @@ function renderBoard() {
       square.dataset.r = r;
       square.dataset.c = c;
 
-      // last move highlight
       if (lastMove) {
         if (
           (lastMove.from.r === r && lastMove.from.c === c) ||
@@ -93,12 +95,10 @@ function renderBoard() {
         }
       }
 
-      // selected highlight
       if (selected && selected.r === r && selected.c === c) {
         square.classList.add("selected");
       }
 
-      // legal move highlight
       if (selected) {
         const isLegal = legalMoves.some(m => m.to.r === r && m.to.c === c);
         if (isLegal) square.classList.add("highlight");
@@ -115,7 +115,6 @@ function renderBoard() {
       square.addEventListener("mouseup", onSquareMouseUp);
       square.addEventListener("click", onSquareClick);
 
-      // labels
       if (r === RANKS - 1) {
         const label = document.createElement("div");
         label.classList.add("label", "file-label");
@@ -149,7 +148,9 @@ function renderMoveHistory() {
 
 function renderStatus() {
   if (!statusEl) return;
-  statusEl.textContent = `Turn: ${game.turn === "w" ? "White" : "Black"}`;
+  let text = `Turn: ${game.turn === "w" ? "White" : "Black"}`;
+  if (aiThinking) text += " (AI thinking...)";
+  statusEl.textContent = text;
 }
 
 function coordToAlgebraic(pos) {
@@ -276,13 +277,7 @@ function handleMove(move) {
   }
 }
 
-// ---------------- Simple AI (random move for now) ----------------
-
-function getRandomAIMove() {
-  const moves = getLegalMoves(game);
-  if (moves.length === 0) return null;
-  return moves[Math.floor(Math.random() * moves.length)];
-}
+// ---------------- Minimax AI integration ----------------
 
 function aiShouldMove() {
   if (!aiSide) return false;
@@ -294,9 +289,10 @@ function aiMakeMove() {
   if (!aiShouldMove()) return;
 
   aiThinking = true;
+  renderStatus();
 
   setTimeout(() => {
-    const move = getRandomAIMove();
+    const move = getBestMove(game, aiDepth);
     if (move) {
       const fromPiece = game.board[move.from.r][move.from.c];
       const targetPiece = game.board[move.to.r][move.to.c];
@@ -306,10 +302,11 @@ function aiMakeMove() {
       renderBoard();
     }
     aiThinking = false;
+    renderStatus();
     if (aiSide === "both") {
       aiMakeMove();
     }
-  }, 300);
+  }, 200);
 }
 
 function maybeAIMove() {
@@ -329,6 +326,10 @@ aiSelectEl.addEventListener("change", e => {
     aiSide = val; // "w" or "b"
   }
   maybeAIMove();
+});
+
+aiLevelEl.addEventListener("change", e => {
+  aiDepth = parseInt(e.target.value, 10) || 2;
 });
 
 newGameBtn.addEventListener("click", () => {
