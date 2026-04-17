@@ -107,7 +107,7 @@ ul {
 }
 
 /* --------------------------------------------------
-   BOARD (10×8, RESPONSIVE, CORRECT)
+   BOARD (10×8, RESPONSIVE)
 -------------------------------------------------- */
 
 #board {
@@ -116,17 +116,18 @@ ul {
   grid-template-rows: repeat(8, 1fr);      /* 8 ranks */
 
   width: 100%;
-  max-width: 700px;        /* perfect laptop size */
-  aspect-ratio: 10 / 8;    /* correct Shield Maiden geometry */
+  max-width: 700px;        /* laptop size */
+  aspect-ratio: 10 / 8;    /* correct geometry */
 
   border: 2px solid #333;
 }
 
 /* --------------------------------------------------
-   BOARD SQUARES
+   BOARD SQUARES & PIECES
 -------------------------------------------------- */
 
 .square {
+  position: relative;
   width: 100%;
   height: 100%;
 }
@@ -137,6 +138,73 @@ ul {
 
 .dark {
   background: #8b5a2b;
+}
+
+.square img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------
+   HIGHLIGHTS & LAST MOVE
+-------------------------------------------------- */
+
+.selected {
+  outline: 3px solid #ffd56a;
+  outline-offset: -3px;
+}
+
+.highlight {
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 0, 0.6);
+}
+
+.last-move {
+  box-shadow: inset 0 0 0 3px rgba(0, 200, 255, 0.6);
+}
+
+/* --------------------------------------------------
+   FILE / RANK LABELS
+-------------------------------------------------- */
+
+.label {
+  position: absolute;
+  font-size: 11px;
+  color: #f0e6d2;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+  pointer-events: none;
+}
+
+.file-label {
+  bottom: 2px;
+  right: 4px;
+}
+
+.rank-label {
+  top: 2px;
+  left: 4px;
+}
+
+/* --------------------------------------------------
+   PROMOTION POPUP
+-------------------------------------------------- */
+
+.promotion-popup {
+  position: fixed;
+  background: #222;
+  border: 2px solid #444;
+  padding: 10px;
+  display: flex;
+  gap: 8px;
+  z-index: 2000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+}
+
+.promotion-popup img {
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
 }
 
 /* --------------------------------------------------
