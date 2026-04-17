@@ -1,24 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shield Maiden Chess</title>
-  <link rel="stylesheet" href="style.css" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Favicon (add files later) -->
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+  <link rel="icon" type="image/png" sizes="128x128" href="favicon-128.png">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
+
 <body>
-  <div id="app">
-    <header class="panel">
-      <h1>Shield Maiden Chess</h1>
+<div id="app">
+
+  <!-- HEADER -->
+  <header class="panel">
+    <h1>Shield Maiden Chess</h1>
+  </header>
+
+  <!-- MAIN LAYOUT -->
+  <div id="main-layout">
+
+    <!-- BOARD -->
+    <div id="board-container">
+      <div id="board"></div>
+    </div>
+
+    <!-- SIDE PANEL -->
+    <div id="side-panel">
+
+      <div id="status"></div>
+
+      <h3>Move History</h3>
+      <div id="move-history"></div>
+
+      <h3>Game Settings</h3>
       <div id="controls">
-        <label for="ai-side">AI Side:</label>
+        <label>AI Side:</label>
         <select id="ai-side">
           <option value="none">Human vs Human</option>
-          <option value="w">AI plays White</option>
-          <option value="b">AI plays Black</option>
+          <option value="w">AI as White</option>
+          <option value="b">AI as Black</option>
           <option value="both">AI vs AI</option>
         </select>
 
-        <label for="ai-level">Difficulty:</label>
+        <label>Difficulty:</label>
         <select id="ai-level">
           <option value="1">Easy</option>
           <option value="2" selected>Medium</option>
@@ -27,26 +58,97 @@
 
         <button id="new-game">New Game</button>
       </div>
-    </header>
 
-    <main id="main-layout">
-      <div id="board-container">
-        <div id="board"></div>
-      </div>
-      <aside id="side-panel" class="panel">
-        <h2>Move History</h2>
-        <div id="move-history"></div>
-        <h2>Status</h2>
-        <div id="status"></div>
-      </aside>
-    </main>
-
-    <footer class="panel">
-      <span>Shield Maiden Chess — 10×8 variant with Shield Maiden and Shield Wall foundations.</span>
-      <span><a href="https://github.com/rmsetre070-debug/shieldmaidenchess" target="_blank">View on GitHub</a></span>
-    </footer>
+    </div>
   </div>
 
-  <script type="module" src="ui.js"></script>
+  <!-- ABOUT SECTION -->
+  <section id="about">
+    <h2>About Shield Maiden Chess</h2>
+    <p>
+      Shield Maiden Chess is a modern expansion of classical chess, designed to deepen
+      strategic play while preserving the clarity and discipline of the original game.
+      The variant introduces a wider 10‑file battlefield, new tactical geometry, and
+      the Shield Maiden — a support piece that reshapes positional play without
+      disrupting the core logic of chess.
+    </p>
+    <p>
+      The result is a richer, more expressive game that rewards long‑term planning,
+      creative tactics, and a deeper understanding of spatial control. Shield Maiden
+      Chess is built for players, theorists, and designers who want to explore a
+      broader strategic landscape while staying grounded in classical principles.
+    </p>
+  </section>
+
+  <!-- RULES SECTION -->
+  <section id="rules">
+    <h2>Rules Overview</h2>
+
+    <h3>Board</h3>
+    <ul>
+      <li>The board is 10 files × 8 ranks.</li>
+      <li>Files are labeled a–j; ranks follow the standard 1–8.</li>
+    </ul>
+
+    <h3>Pieces</h3>
+    <p>All classical pieces retain their standard movement and capture rules.</p>
+
+    <h4>The Shield Maiden (S)</h4>
+    <ul>
+      <li>Moves like a King (one square in any direction).</li>
+      <li>Cannot be checked or checkmated.</li>
+      <li>Cannot deliver check.</li>
+      <li>Functions as a positional support unit.</li>
+    </ul>
+
+    <h3>Setup</h3>
+    <ul>
+      <li>Standard chess setup extended to the 10‑file board.</li>
+      <li>Shield Maidens begin on the new outer files.</li>
+    </ul>
+
+    <h3>Promotion</h3>
+    <ul>
+      <li>Pawns promote upon reaching the final rank.</li>
+      <li>Promotion options: Queen, Rook, Bishop, Knight, Shield Maiden.</li>
+    </ul>
+
+    <h3>Victory Conditions</h3>
+    <ul>
+      <li>Checkmate the opponent’s King.</li>
+      <li>Shield Maidens do not affect win conditions directly.</li>
+    </ul>
+
+    <h3>Draws</h3>
+    <ul>
+      <li>Stalemate</li>
+      <li>Threefold repetition</li>
+      <li>Insufficient material</li>
+      <li>50‑move rule</li>
+    </ul>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>For inquiries, collaboration, or professional correspondence:</p>
+    <p>
+      <strong>Robert Mestre</strong><br>
+      <a href="mailto:robertmestre@proton.me">robertmestre@proton.me</a>
+    </p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="panel">
+    <div>© 2026 Shield Maiden Chess</div>
+    <div>Designed by Robert Mestre</div>
+    <div><a href="mailto:robertmestre@proton.me">Contact</a></div>
+  </footer>
+
+</div>
+
+<!-- Scripts -->
+<script type="module" src="ui.js"></script>
+
 </body>
 </html>
